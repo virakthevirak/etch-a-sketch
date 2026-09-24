@@ -267,7 +267,7 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
         let finalColor = baseColor
         let finalOpacity = strokeOpacity
 
-        if (isAlreadyPainted) {
+       if (isAlreadyPainted) {
             const existingOpacity = parseFloat(cell.style.opacity) || 1.0
             finalOpacity = Math.min(1.0, existingOpacity + strokeOpacity)
 
@@ -277,12 +277,16 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
                 let g = parseInt(oldMatch[1])
                 let b = parseInt(oldMatch[2])
 
-                if (currentTool === "brush") {
-                    r = Math.max(0, Math.round(r * 0.5))
-                    g = Math.max(0, Math.round(g * 0.5))
-                    b = Math.max(0, Math.round(b * 0.5))
-                } else {
+                if (currentTool === "random") {
                     const newMatch = finalColor.match(/\d+/g)
+                    if (newMatch) {
+                        r = Math.round((r + parseInt(newMatch[0])) / 2)
+                        g = Math.round((g + parseInt(newMatch[1])) / 2)
+                        b = Math.round((b + parseInt(newMatch[2])) / 2)
+                    }
+                } else {
+                    // For brush/custom color, blend/darken smoothly towards the target customColor
+                    const newMatch = baseColor.match(/\d+/g)
                     if (newMatch) {
                         r = Math.round((r + parseInt(newMatch[0])) / 2)
                         g = Math.round((g + parseInt(newMatch[1])) / 2)
@@ -335,7 +339,7 @@ let currentVal = 0.27
 
 const colorPickerBtn = document.createElement("button")
 colorPickerBtn.id = "color-picker-btn"
-colorPickerBtn.textContent = "Color Picker"
+colorPickerBtn.textContent = "color"
 colorPickerBtn.style.background = "white"
 toolbox.appendChild(colorPickerBtn)
 
