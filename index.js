@@ -34,7 +34,7 @@ page.appendChild(toolbox)
 const canvasContainer = document.createElement("div")
 canvasContainer.style.width = "auto"
 canvasContainer.id = "canvas-container"
-canvasContainer.display = "flex"
+canvasContainer.style.display = "flex"
 canvasContainer.style.height = "auto"
 
 page.appendChild(canvasContainer)
@@ -304,28 +304,27 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
         let finalOpacity = strokeOpacity
 
        if (isAlreadyPainted) {
-    const existingOpacity = parseFloat(cell.style.opacity) || 1.0
+            const existingOpacity = parseFloat(cell.style.opacity) || 1.0
 
-    const oldMatch = cell.style.background.match(/\d+/g)
-    const newMatch = finalColor.match(/\d+/g)
+            const oldMatch = cell.style.background.match(/\d+/g)
+            const newMatch = finalColor.match(/\d+/g)
 
-    if (oldMatch && newMatch) {
-        let r = parseInt(oldMatch[0])
-        let g = parseInt(oldMatch[1])
-        let b = parseInt(oldMatch[2])
+            if (oldMatch && newMatch) {
+            let r = parseInt(oldMatch[0])
+            let g = parseInt(oldMatch[1])
+            let b = parseInt(oldMatch[2])
 
-        const nr = parseInt(newMatch[0])
-        const ng = parseInt(newMatch[1])
-        const nb = parseInt(newMatch[2])
+            const nr = parseInt(newMatch[0])
+            const ng = parseInt(newMatch[1])
+            const nb = parseInt(newMatch[2])
 
-        r = Math.round((r + nr) / 2)
-        g = Math.round((g + ng) / 2)
-        b = Math.round((b + nb) / 2)
+            r = Math.round((r + nr) / 2)
+            g = Math.round((g + ng) / 2)
+            b = Math.round((b + nb) / 2)
 
-        finalColor = `rgb(${r}, ${g}, ${b})`
+            finalColor = `rgb(${r}, ${g}, ${b})`
     }
 
-    // Accumulate opacity independently
     finalOpacity = Math.min(
         1.0,
         existingOpacity + strokeOpacity
@@ -358,7 +357,7 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
             const dist = Math.sqrt(dx * dx + dy * dy)
             if (dist <= radius) {
                 let strokeOpacity = 1.0
-                if (dist >= radius - 0.7) {
+                if (dist >= radius - 0.6) {
                     strokeOpacity = 0.4
                 }
                 paintSingleCell(centerX + dx, centerY + dy, strokeOpacity)
