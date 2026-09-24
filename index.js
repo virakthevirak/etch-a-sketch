@@ -15,7 +15,7 @@ page.style.display = "flex"
 page.style.flexDirection = "row"
 page.style.alignContent = "center"
 page.style.alignItems = "center"
-page.style.gap = ""
+page.style.gap = "16px"
 document.body.appendChild(page)
 
 const toolbox = document.createElement("div")
