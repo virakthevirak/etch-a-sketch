@@ -1,9 +1,3 @@
-console.log("log")
-
-// create 16 x 16 grid of square divs
-
-// let's have a proper page and canvas and tools part
-
 let currentTool = "brush"
 let isDrawing = false
 let cells = []
@@ -238,8 +232,15 @@ brushSizeBtn.style.background = "white"
 toolbox.appendChild(brushSizeBtn)
 
 brushSizeBtn.addEventListener("click", (e) => {
-    brushSize = prompt("set brush size(1-10): ", "1")
+    brushSize = prompt("set brush size(1-10): ", 1)
     brushSize = brushSize * 1.0
+    if(brushSize > 10){
+        brushSize = 10
+    } else if (brushSize < 1){
+        brushSize = 1
+    } else {
+        console.log("wtf did you do with that brush")
+    }
     if(typeof brushSize !== "number" || isNaN(brushSize)){
         brushSize = 1
     }
@@ -282,7 +283,6 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
         const ng = parseInt(newMatch[1])
         const nb = parseInt(newMatch[2])
 
-        // Mix the colors
         r = Math.round((r + nr) / 2)
         g = Math.round((g + ng) / 2)
         b = Math.round((b + nb) / 2)
