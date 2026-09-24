@@ -268,34 +268,34 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
         let finalOpacity = strokeOpacity
 
        if (isAlreadyPainted) {
-            const existingOpacity = parseFloat(cell.style.opacity) || 1.0
-            finalOpacity = Math.min(1.0, existingOpacity + strokeOpacity)
+    const existingOpacity = parseFloat(cell.style.opacity) || 1.0
 
-            const oldMatch = cell.style.background.match(/\d+/g)
-            if (oldMatch) {
-                let r = parseInt(oldMatch[0])
-                let g = parseInt(oldMatch[1])
-                let b = parseInt(oldMatch[2])
+    const oldMatch = cell.style.background.match(/\d+/g)
+    const newMatch = finalColor.match(/\d+/g)
 
-                if (currentTool === "random") {
-                    const newMatch = finalColor.match(/\d+/g)
-                    if (newMatch) {
-                        r = Math.round((r + parseInt(newMatch[0])) / 2)
-                        g = Math.round((g + parseInt(newMatch[1])) / 2)
-                        b = Math.round((b + parseInt(newMatch[2])) / 2)
-                    }
-                } else {
-                    // For brush/custom color, blend/darken smoothly towards the target customColor
-                    const newMatch = baseColor.match(/\d+/g)
-                    if (newMatch) {
-                        r = Math.round((r + parseInt(newMatch[0])) / 2)
-                        g = Math.round((g + parseInt(newMatch[1])) / 2)
-                        b = Math.round((b + parseInt(newMatch[2])) / 2)
-                    }
-                }
-                finalColor = `rgb(${r}, ${g}, ${b})`
-            }
-        }
+    if (oldMatch && newMatch) {
+        let r = parseInt(oldMatch[0])
+        let g = parseInt(oldMatch[1])
+        let b = parseInt(oldMatch[2])
+
+        const nr = parseInt(newMatch[0])
+        const ng = parseInt(newMatch[1])
+        const nb = parseInt(newMatch[2])
+
+        // Mix the colors
+        r = Math.round((r + nr) / 2)
+        g = Math.round((g + ng) / 2)
+        b = Math.round((b + nb) / 2)
+
+        finalColor = `rgb(${r}, ${g}, ${b})`
+    }
+
+    // Accumulate opacity independently
+    finalOpacity = Math.min(
+        1.0,
+        existingOpacity + strokeOpacity
+    )
+}
 
         cell.style.background = finalColor
         cell.style.opacity = finalOpacity
