@@ -93,6 +93,41 @@ container.addEventListener("mouseover", (e) => {
         applyBrush(e.target.x, e.target.y, currentTool, brushSize)
     }
 })
+container.addEventListener("dragstart", (e) => {
+    e.preventDefault()
+})
+container.style.userSelect = "none"
+container.style.webkitUserSelect = "none"
+container.style.userDrag = "none"
+container.draggable = false
+
+container.addEventListener("touchstart", (e) => {
+    if(isDraggingSlider) return
+    isDrawing = true
+    
+    const touch = e.touches[0]
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    if(target && target.classList.contains("cell")) {
+        applyBrush(target.x, target.y, currentTool, brushSize)
+    }
+    e.preventDefault(); // Prevents page scrolling while drawing
+}, { passive: false })
+
+window.addEventListener("touchend", () => {
+    isDrawing = false
+});
+
+container.addEventListener("touchmove", (e) => {
+    if(isDraggingSlider) return
+    if(isDrawing) {
+        const touch = e.touches[0]
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        if(target && target.classList.contains("cell")) {
+            applyBrush(target.x, target.y, currentTool, brushSize)
+        }
+        e.preventDefault() // Prevents page scrolling while drawing
+    }
+}, { passive: false })
 
 }
 
