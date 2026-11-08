@@ -125,7 +125,7 @@ container.addEventListener("touchmove", (e) => {
         if(target && target.classList.contains("cell")) {
             applyBrush(target.x, target.y, currentTool, brushSize)
         }
-        e.preventDefault() // Prevents page scrolling while drawing
+        e.preventDefault() 
     }
 }, { passive: false })
 
@@ -357,8 +357,8 @@ function applyBrush(centerX, centerY, currentTool, brushSize) {
             const dist = Math.sqrt(dx * dx + dy * dy)
             if (dist <= radius) {
                 let strokeOpacity = 1.0
-                if (dist >= radius - 0.6) {
-                    strokeOpacity = 0.4
+                if (dist >= radius - 0.5) {
+                    strokeOpacity = 0.3
                 }
                 paintSingleCell(centerX + dx, centerY + dy, strokeOpacity)
             }
